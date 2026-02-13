@@ -11,6 +11,45 @@ class RoleController {
       next(error);
     }
   }
+
+  async findOneRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id as string;
+      const response = await roleService.findOneService(id);
+      res.status(200).json(success("Role found successfully", 200, response));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async findManyRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const response = await roleService.findManyService();
+      res.status(200).json(success("Role found successfully", 200, response));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id as string;
+      const response = await roleService.updateOne(id, req.body);
+      res.status(200).json(success("Role updated successfully", 200, response));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id as string;
+      const response = await roleService.deleteOneService(id);
+      res.status(200).json(success("Role deleted successfully", 200, response));
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const roleController = new RoleController();

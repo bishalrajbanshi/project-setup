@@ -19,3 +19,13 @@ export class ApiError extends Error {
     }
   }
 }
+
+export const HttpError = (
+  message: string,
+  statusCode = 500,
+  errors: any[] = [],
+  data: any = null
+): never => {
+  throw new ApiError(message, statusCode, errors, data);
+};
+
