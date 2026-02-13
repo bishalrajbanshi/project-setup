@@ -15,8 +15,10 @@ export class CreateApp {
     app.use(helmetConfig);
     app.use(morganMiddleware);
     app.use(express.json());
+    
     app.use(express.urlencoded({ extended: true }));
-    app.use(webRoutes);
+
+    app.use('/api/v1', webRoutes);
     app.use(globalErrorHandler);
     return app;
   };
