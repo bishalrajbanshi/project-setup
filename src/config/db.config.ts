@@ -1,6 +1,10 @@
 import { logger } from "@common/logger";
 import prisma from "./prisma.client.config";
 
+
+/**
+ * Database connection 
+ */
 export const connectDb = async (): Promise<void> => {
   try {
     await prisma.$connect();
@@ -11,6 +15,9 @@ export const connectDb = async (): Promise<void> => {
   }
 };
 
+/**
+ * Database disconnect
+ */
 export const disconnectDb = async (): Promise<void> => {
   try {
     await prisma.$disconnect();
