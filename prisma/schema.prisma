@@ -47,18 +47,40 @@ model Permission {
   id          String           @id @default(uuid())
   name        String           @db.VarChar(100)
   description String           @db.VarChar(255)
-  resources   String           @db.VarChar(100)
-  actions     String           @db.VarChar(100)
 
   roles           RoleAndPermission[]
   users           UserPermission[]
   rolePermissions UserRolePermission[] 
+  permissionActions PermissionAction[]
+  permissionResources PermissionResources[]
+
 
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 
-  @@unique([resources, actions])
   @@map("permissions")
+}
+
+model PermissionResources {
+  id    String @id @default(uuid())
+  resources String    @db.VarChar(255)
+
+  permissionId String
+  permission Permission @relation(fields: [permissionId],references: [id], onDelete: Cascade)
+
+  @@map("permissionresources")
+}
+
+model PermissionAction {
+  id           String @id @default(uuid())
+  action       String @db.VarChar(100)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("permissionactions")
 }
 
 model RoleAndPermission {
