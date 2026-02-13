@@ -1,0 +1,21 @@
+import { logger } from "@common/logger";
+import prisma from "./prisma.client.config";
+
+export const connectDb = async (): Promise<void> => {
+  try {
+    await prisma.$connect();
+    logger.info("🚀 Database connected (Prisma)");
+  } catch (error) {
+    logger.error("🔴 Database connection failed", error);
+    throw error; 
+  }
+};
+
+export const disconnectDb = async (): Promise<void> => {
+  try {
+    await prisma.$disconnect();
+    logger.info("🟢 Database disconnected (Prisma) 🟢");
+  } catch (error) {
+    logger.error("🔴 Database disconnection failed 🟢", error);
+  }
+};
