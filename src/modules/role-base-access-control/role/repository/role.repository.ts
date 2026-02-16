@@ -14,8 +14,43 @@ export class RoleRepository {
     return await prisma.role.update({ where: { id }, data: payload });
   }
 
-  protected async findMany() {
-    return await prisma.role.findMany();
+  protected async findMany(params: {
+    page?: number;
+    perPage?: number;
+    search?: string;
+  }) {
+    const page = params.page && params.page > 0 ? params.page : 1;
+    const perPage = params.perPage && params.perPage > 0 ? params.perPage : 10;
+    const skip = (page - 1) * perPage;
+    const whereConditions: Prisma.RoleWhereInput = params.search
+      ? {
+          name: {
+            contains: params.search,
+            mode: Prisma.QueryMode.insensitive,
+          },
+        }
+      : {};
+
+    const [records, totalRecord] = await prisma.$transaction([
+      prisma.role.findMany({
+        where: whereConditions,
+        skip,
+        take: perPage,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.role.count({ where: whereConditions }),
+    ]);
+
+    return {
+      records,
+      totalRecord,
+      page,
+      perPage,
+      totalPages: Math.ceil(totalRecord / perPage),
+      // records,
+      // meta: {
+      // },
+    };
   }
 
   protected async deleteOne(payload: Prisma.RoleWhereUniqueInput) {
