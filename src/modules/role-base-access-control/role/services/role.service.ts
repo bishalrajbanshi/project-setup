@@ -26,8 +26,10 @@ class RoleService extends RoleRepository {
     return role;
   }
 
-  async findManyService() {
-    const role = await this.findMany();
+  async findManyService(
+    params: { page?: number; perPage?: number; search?: string } = {}
+  ) {
+    const role = await this.findMany(params);
     if (!role) {
       throw HttpError("Role not found", 404);
     }
