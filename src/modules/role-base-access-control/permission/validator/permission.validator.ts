@@ -1,5 +1,5 @@
 import { check } from "express-validator";
-import { whitelistFields } from "helper/validation.helper";
+import { whitelistFields } from "core/helper/validation.helper";
 
 export const permissionCreateValidator = [
   whitelistFields(["name", "description", "action", "resource"]),

@@ -1,4 +1,4 @@
-import { ApiError } from "@config/apiError.config";
+import { ApiError } from "core/config/apiError.config";
 import { Request, Response, NextFunction } from "express";
 import { Prisma } from "@prisma/client";
 
@@ -47,7 +47,9 @@ export function globalErrorHandler(
       errors = [
         {
           field: target,
-          msg: `Foreign key constraint failed on field(s): ${target.join(", ")}`,
+          msg: `Foreign key constraint failed on field(s): ${target.join(
+            ", "
+          )}`,
         },
       ];
       statusCode = 400;

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { permissionService } from "../services/permission.service";
-import { success } from "@common/response";
+import { success } from "core/common/response";
 
 class PermissionController {
   public async createPermission(

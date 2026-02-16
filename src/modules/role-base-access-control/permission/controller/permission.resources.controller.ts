@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { permissionResourcesService } from "../services/permission.resources.services";
-import { success } from "@common/response";
+import { success } from "core/common/response";
 
 class PermissionResourcesController {
   async createPermissionResources(

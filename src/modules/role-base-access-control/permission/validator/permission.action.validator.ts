@@ -1,5 +1,5 @@
 import { check } from "express-validator";
-import { whitelistFields } from "helper/validation.helper";
+import { whitelistFields } from "core/helper/validation.helper";
 
 export const permissionActionCreateValidator = [
   whitelistFields(["action"]),
@@ -9,7 +9,7 @@ export const permissionActionCreateValidator = [
     .withMessage("action is required")
     .bail()
     .isString()
-    .withMessage("action must be a string")
+    .withMessage("action must be a string"),
 ];
 
 export const permissionActionUpdateValidator = [
@@ -18,5 +18,5 @@ export const permissionActionUpdateValidator = [
     .trim()
     .optional()
     .isString()
-    .withMessage("action must be a string")
+    .withMessage("action must be a string"),
 ];

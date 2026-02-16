@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { roleController } from "../controller/role.controller";
-import { checkValidation } from "helper/validation.helper";
+import { checkValidation } from "core/helper/validation.helper";
 import {
   roleCreateValidator,
   roleUpdateValidator,
@@ -22,7 +22,6 @@ router.patch(
   checkValidation(roleUpdateValidator),
   roleController.updateRole
 );
-
 
 router.delete("/:id", roleController.deleteRole);
 

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { roleService } from "../services/role.service";
-import { success } from "@common/response";
+import { success } from "core/common/response";
 
 class RoleController {
   async createRole(req: Request, res: Response, next: NextFunction) {
@@ -44,8 +44,8 @@ class RoleController {
   async deleteRole(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id as string;
-      const response = await roleService.deleteOneService(id);
-      res.status(200).json(success("Role deleted successfully", 200, response));
+      await roleService.deleteOneService(id);
+      res.status(200).json(success("Role deleted successfully", 200, {}));
     } catch (error) {
       next(error);
     }
