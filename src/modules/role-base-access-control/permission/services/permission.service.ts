@@ -15,8 +15,14 @@ class PermissionService extends PermissionRepository {
     return permission;
   }
 
-  async findManyService() {
-    const permission = await this.findMany();
+  async findManyService(
+    params: {
+      page?: number;
+      perPage?: number;
+      search?: string;
+    }
+  ) {
+    const permission = await this.findMany(params);
     if (!permission) {
       throw HttpError("Permission not found", 404);
     }
