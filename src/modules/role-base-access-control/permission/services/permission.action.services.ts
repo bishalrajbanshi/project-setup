@@ -15,8 +15,12 @@ class PermissionActionService extends PermissionActionRepository {
     return action;
   }
 
-  async findManyService() {
-    const action = await this.findMany();
+  async findManyService(params: {
+    page?: number;
+    perPage?: number;
+    search?: string;
+  }) {
+    const action = await this.findMany(params);
     if (!action) {
       throw HttpError("Permission action not found", 404);
     }

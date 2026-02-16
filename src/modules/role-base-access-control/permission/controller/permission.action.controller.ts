@@ -43,7 +43,17 @@ class PermissionActionController {
 
   public async findMany(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await permissionActionService.findManyService();
+      const { page, perPage, search } = req.query as {
+        page: string;
+        perPage: string;
+        search: string;
+      };
+
+      const response = await permissionActionService.findManyService({
+        page: parseInt(page, 10),
+        perPage: parseInt(perPage, 10),
+        search,
+      });
       res
         .status(200)
         .json(success("Permission action found successfully", 200, response));

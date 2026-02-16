@@ -68,6 +68,9 @@ model PermissionResources {
   permissionId String
   permission Permission @relation(fields: [permissionId],references: [id], onDelete: Cascade)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("permissionresources")
 }
 

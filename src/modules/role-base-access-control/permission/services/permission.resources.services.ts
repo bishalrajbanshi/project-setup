@@ -23,8 +23,14 @@ class PermissionResourcesService extends PermissionResourcesRepository {
     return resources;
   }
 
-  async findManyService() {
-    const resources = await this.findMany();
+  async findManyService(
+    params: {
+      page?: number;
+      perPage?: number;
+      search?: string;
+    }
+  ) {
+    const resources = await this.findMany(params);
     if (!resources) {
       throw HttpError("Permission resources not found", 404);
     }
