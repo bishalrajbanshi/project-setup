@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { permissionActionController } from "../../permission/controller/permission.action.controller";
-import { checkValidation } from "helper/validation.helper";
+import { checkValidation } from "core/helper/validation.helper";
 import {
   permissionActionCreateValidator,
   permissionActionUpdateValidator,

@@ -1,6 +1,6 @@
 import { RoleStatus } from "@prisma/client";
 import { check } from "express-validator";
-import { whitelistFields } from "helper/validation.helper";
+import { whitelistFields } from "core/helper/validation.helper";
 
 export const roleCreateValidator = [
   whitelistFields(["name", "isSystem", "status"]),

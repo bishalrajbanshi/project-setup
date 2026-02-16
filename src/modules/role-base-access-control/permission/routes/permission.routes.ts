@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { permissionController } from "../../permission/controller/permission.controller";
-import { checkValidation } from "helper/validation.helper";
-import { permissionCreateValidator, permissionUpdateValidator } from "../validator/permission.validator";
+import { checkValidation } from "core/helper/validation.helper";
+import {
+  permissionCreateValidator,
+  permissionUpdateValidator,
+} from "../validator/permission.validator";
 const router = Router();
 
 router.get("/list", permissionController.findManyPermission);

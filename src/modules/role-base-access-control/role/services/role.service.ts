@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { RoleRepository } from "../repository/role.repository";
-import { HttpError } from "@config/apiError.config";
+import { HttpError } from "core/config/apiError.config";
 
 class RoleService extends RoleRepository {
   constructor() {
@@ -39,7 +39,6 @@ class RoleService extends RoleRepository {
     if (!role) {
       throw HttpError("Role not found", 404);
     }
-    return role;
   }
 }
 export const roleService = new RoleService();

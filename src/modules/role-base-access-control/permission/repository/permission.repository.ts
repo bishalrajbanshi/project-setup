@@ -1,4 +1,4 @@
-import prisma from "@config/prisma.client.config";
+import prisma from "core/config/prisma.client.config";
 import { Prisma } from "@prisma/client";
 
 export class PermissionRepository {

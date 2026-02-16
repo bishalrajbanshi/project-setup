@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { PermissionResourcesRepository } from "../repository/permission.resources.repository";
-import { HttpError } from "@config/apiError.config";
+import { HttpError } from "core/config/apiError.config";
 
 class PermissionResourcesService extends PermissionResourcesRepository {
   constructor() {
