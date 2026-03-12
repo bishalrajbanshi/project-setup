@@ -26,7 +26,9 @@ class PermissionResourcesController {
     next: NextFunction
   ) {
     try {
-      const response = await permissionResourcesService.findManyService();
+      const response = await permissionResourcesService.findManyService(
+        req.query as { page?: number; perPage?: number; search?: string }
+      );
       res
         .status(200)
         .json(
