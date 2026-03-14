@@ -1,11 +1,14 @@
-import express, { Request, Response, NextFunction, Router } from "express";
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import webRoutes from "./web/index";
 import { morganMiddleware } from "core/common/logger";
 import { helmetConfig } from "core/common/helmet";
-import { errorHandler } from "middlewares/errorHandler.middleware";
+import {
+  errorHandler,
+  routeNotFoundHandler,
+} from "middlewares/errorHandler.middleware";
 
 export class CreateApp {
   createApp = () => {
@@ -17,6 +20,7 @@ export class CreateApp {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use("/api/v1", webRoutes);
+    app.use(routeNotFoundHandler as express.RequestHandler);
     app.use(errorHandler as express.ErrorRequestHandler);
     return app;
   };

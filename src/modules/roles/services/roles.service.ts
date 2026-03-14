@@ -3,33 +3,24 @@ import { RolesRepository } from "../repositories/roles.repository";
 import { httpStatus } from "@/core/constants/httpStatus";
 
 export class RolesService {
-  constructor(
-    private readonly rolesRepository = new RolesRepository()
-  ) {}
+  constructor(private readonly rolesRepository = new RolesRepository()) {}
   async createRole(payload: any) {
     return await this.rolesRepository.create(payload);
   }
 
-  async findOne(id:string){
+  async findOne(id: string) {
     const result = await this.rolesRepository.findOne(id);
     if (!result) {
-      throw new HttpException(
-        httpStatus.OK,
-        "Role not found"
-      )
+      throw new HttpException(httpStatus.NOT_FOUND, "Role not found");
     }
     return result;
   }
 
-  async update(id:string, payload:any){
+  async update(id: string, payload: any) {
     const role = await this.rolesRepository.findOne(id);
     if (!role) {
-      throw new HttpException(
-        httpStatus.OK,
-        "Role not found"
-      )
+      throw new HttpException(httpStatus.NOT_FOUND, "Role not found");
     }
     return await this.rolesRepository.update(id, payload);
   }
 }
-

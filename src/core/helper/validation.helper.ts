@@ -3,7 +3,7 @@ import {
   type ValidationChain,
   validationResult,
 } from "express-validator";
-import type { NextFunction, Request, Response } from "express";
+import type { RequestHandler } from "express";
 import { ApiError, type ErrorDetails } from "core/config/error.handler.config";
 
 export const whitelistFields = (allowedFields: string[]): ValidationChain => {
@@ -21,11 +21,7 @@ export const whitelistFields = (allowedFields: string[]): ValidationChain => {
 };
 
 export const checkValidation = (validations: ValidationChain[]) => {
-  return async (
-    req: Request,
-    _res: Response,
-    next: NextFunction
-  ): Promise<void> => {
+  const handler: RequestHandler = async (req, _res, next): Promise<void> => {
     await Promise.all(validations.map((validation) => validation.run(req)));
 
     const errors = validationResult(req);
@@ -46,4 +42,6 @@ export const checkValidation = (validations: ValidationChain[]) => {
       )
     );
   };
+
+  return handler;
 };
