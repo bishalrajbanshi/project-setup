@@ -14,11 +14,22 @@ export class RolesService {
     const result = await this.rolesRepository.findOne(id);
     if (!result) {
       throw new HttpException(
-        httpStatus.NOT_FOUND,
+        httpStatus.OK,
         "Role not found"
       )
     }
     return result;
+  }
+
+  async update(id:string, payload:any){
+    const role = await this.rolesRepository.findOne(id);
+    if (!role) {
+      throw new HttpException(
+        httpStatus.OK,
+        "Role not found"
+      )
+    }
+    return await this.rolesRepository.update(id, payload);
   }
 }
 

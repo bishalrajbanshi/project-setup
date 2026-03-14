@@ -7,6 +7,7 @@ const rolesController = new RolesController();
 
 router.post('/',rolesController.createRole);
 router.get('/:id',rolesController.findOne);
+router.patch('/:id',rolesController.update);
 
 
 
