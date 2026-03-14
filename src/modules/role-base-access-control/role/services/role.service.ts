@@ -14,7 +14,7 @@ class RoleService extends RoleRepository {
   async findOneService(payload: string) {
     const role = await this.findOne({ id: payload });
     if (!role) {
-      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
+      HttpError('Role not found', 404);
     }
     return role;
   }
@@ -22,7 +22,7 @@ class RoleService extends RoleRepository {
   async updateOne(id: string, payload: Prisma.RoleUpdateInput) {
     const role = await this.update(id, payload);
     if (!role) {
-      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
+      HttpError('Role not found', 404);
     }
     return role;
   }
@@ -32,7 +32,7 @@ class RoleService extends RoleRepository {
   ) {
     const role = await this.findMany(params);
     if (!role) {
-      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
+      HttpError('Role not found', 404);
     }
     return role;
   }
@@ -40,7 +40,7 @@ class RoleService extends RoleRepository {
   async deleteOneService(payload: string) {
     const role = await this.deleteOne({ id: payload });
     if (!role) {
-      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
+      HttpError('Role not found', 404);
     }
   }
 }
