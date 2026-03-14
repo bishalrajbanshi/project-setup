@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { RoleRepository } from "../repository/role.repository";
-import { HttpError } from "core/config/apiError.config";
+import { HttpError } from "core/config/error.handler.config";
+import { DynamicMessages } from "@utils/dynamic_messages";
 
 class RoleService extends RoleRepository {
   constructor() {
@@ -13,7 +14,7 @@ class RoleService extends RoleRepository {
   async findOneService(payload: string) {
     const role = await this.findOne({ id: payload });
     if (!role) {
-      throw HttpError("Role not found", 404);
+      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
     }
     return role;
   }
@@ -21,7 +22,7 @@ class RoleService extends RoleRepository {
   async updateOne(id: string, payload: Prisma.RoleUpdateInput) {
     const role = await this.update(id, payload);
     if (!role) {
-      throw HttpError("Role not found", 404);
+      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
     }
     return role;
   }
@@ -31,7 +32,7 @@ class RoleService extends RoleRepository {
   ) {
     const role = await this.findMany(params);
     if (!role) {
-      throw HttpError("Role not found", 404);
+      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
     }
     return role;
   }
@@ -39,7 +40,7 @@ class RoleService extends RoleRepository {
   async deleteOneService(payload: string) {
     const role = await this.deleteOne({ id: payload });
     if (!role) {
-      throw HttpError("Role not found", 404);
+      HttpError(DynamicMessages.notFoundMessage("Role"), 404);
     }
   }
 }

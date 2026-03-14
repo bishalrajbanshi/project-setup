@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { PermissionRepository } from "../../permission/repository/permission.repository";
-import { HttpError } from "core/config/apiError.config";
+import { HttpError } from "core/config/error.handler.config";
 
 class PermissionService extends PermissionRepository {
   constructor() {
@@ -15,13 +15,11 @@ class PermissionService extends PermissionRepository {
     return permission;
   }
 
-  async findManyService(
-    params: {
-      page?: number;
-      perPage?: number;
-      search?: string;
-    }
-  ) {
+  async findManyService(params: {
+    page?: number;
+    perPage?: number;
+    search?: string;
+  }) {
     const permission = await this.findMany(params);
     if (!permission) {
       throw HttpError("Permission not found", 404);
