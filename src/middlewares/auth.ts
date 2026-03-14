@@ -1,7 +1,7 @@
 import { JwtPayload } from "jsonwebtoken";
 import express, { Request, Response, NextFunction } from "express";
-import { apiError } from "@utils/response";
 import jwt from "jsonwebtoken";
+import { HttpError } from "core/config/error.handler.config";
 
 const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
 
@@ -22,13 +22,13 @@ export const authenticateToken = async (
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    res.status(401).json(apiError("Token not found", 401, {}));
+    res.status(401).json(HttpError("Unauthorized", 401));
     return;
   }
 
   jwt.verify(token, JWT_SECRET, async (err, user) => {
     if (err) {
-      res.status(403).json(apiError("Unauthorized", 401, {}));
+      res.status(403).json(HttpError("Unauthorized", 403));
       return;
     }
     req.user = user as UserPayload;
@@ -90,4 +90,3 @@ export const authenticateToken = async (
 //     }
 //   };
 // };
-
