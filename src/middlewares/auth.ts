@@ -1,7 +1,7 @@
 import { JwtPayload } from "jsonwebtoken";
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { HttpError } from "core/config/error.handler.config";
+import { ApiError } from "core/config/error.handler.config";
 
 const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
 
@@ -15,25 +15,23 @@ declare module "express" {
 }
 export const authenticateToken = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    res.status(401).json(HttpError("Unauthorized", 401));
-    return;
+    return next(new ApiError("Unauthorized", 401));
   }
 
-  jwt.verify(token, JWT_SECRET, async (err, user) => {
-    if (err) {
-      res.status(403).json(HttpError("Unauthorized", 403));
-      return;
-    }
-    req.user = user as UserPayload;
-    next();
-  });
+  try {
+    const user = jwt.verify(token, JWT_SECRET) as UserPayload;
+    req.user = user;
+    return next();
+  } catch {
+    return next(new ApiError("Unauthorized", 403));
+  }
 };
 
 // export const permissionScopeCheck = (requiredScopes: string[]) => {

@@ -3,23 +3,21 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import webRoutes from "./web/index";
-import { globalErrorHandler } from "middlewares/globalMiddlewares";
 import { morganMiddleware } from "core/common/logger";
 import { helmetConfig } from "core/common/helmet";
+import { errorHandler } from "middlewares/errorHandler.middleware";
 
 export class CreateApp {
-  protected createApp = () => {
+  createApp = () => {
     const app = express();
     app.use(cors());
     app.disable("x-powered-by");
     app.use(helmetConfig);
     app.use(morganMiddleware);
     app.use(express.json());
-
     app.use(express.urlencoded({ extended: true }));
-
     app.use("/api/v1", webRoutes);
-    app.use(globalErrorHandler);
+    app.use(errorHandler as express.ErrorRequestHandler);
     return app;
   };
 }

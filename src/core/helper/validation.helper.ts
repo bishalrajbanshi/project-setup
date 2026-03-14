@@ -1,23 +1,10 @@
-import { body, ValidationChain, validationResult } from "express-validator";
-import { Request, Response, NextFunction } from "express";
-
-type ErrorDetail = {
-  message: string;
-  errors: any[];
-  statusCode: number;
-};
-
-const error = async (
-  message: string,
-  statusCode: number,
-  errors: any[]
-): Promise<ErrorDetail> => {
-  return {
-    message,
-    statusCode,
-    errors,
-  };
-};
+import {
+  body,
+  type ValidationChain,
+  validationResult,
+} from "express-validator";
+import type { NextFunction, Request, Response } from "express";
+import { ApiError, type ErrorDetails } from "core/config/error.handler.config";
 
 export const whitelistFields = (allowedFields: string[]): ValidationChain => {
   return body().custom((_, { req }) => {
@@ -36,7 +23,7 @@ export const whitelistFields = (allowedFields: string[]): ValidationChain => {
 export const checkValidation = (validations: ValidationChain[]) => {
   return async (
     req: Request,
-    res: Response,
+    _res: Response,
     next: NextFunction
   ): Promise<void> => {
     await Promise.all(validations.map((validation) => validation.run(req)));
@@ -46,12 +33,17 @@ export const checkValidation = (validations: ValidationChain[]) => {
       return next();
     }
 
-    const validationError = await error(
-      "The request failed due to a validation problem",
-      422,
-      errors.array()
-    );
+    const details: ErrorDetails[] = errors.array().map((e: any) => ({
+      field: typeof e.path === "string" ? e.path : undefined,
+      message: typeof e.msg === "string" ? e.msg : "Validation error",
+    }));
 
-    res.status(422).json(validationError);
+    return next(
+      new ApiError(
+        "The request failed due to a validation problem",
+        422,
+        details
+      )
+    );
   };
 };
