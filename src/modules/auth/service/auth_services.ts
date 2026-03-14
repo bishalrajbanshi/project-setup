@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
-import { comparePassword, hashPassword } from "@utils/bcrypt";
+import { comparePassword, hashPassword } from "@/core/utils/bcrypt";
 import {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken,
-} from "@utils/jwt";
+} from "@/core/utils/jwt";
 import prisma from "core/config/prisma.client.config";
 
 class AuthServices {
