@@ -1,11 +1,7 @@
 import { Router } from "express";
-import roleRoutes from "../modules/roles/routes/roles.routes";
-
+import userRoutes from "../modules/user/routes/user.routes";
 const router = Router();
 
-/**
- * ROLE BASE ACCESS CONTROL
- */
-router.use("/role", roleRoutes);
+router.use("/user", userRoutes);
 
 export default router;

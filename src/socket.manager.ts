@@ -65,3 +65,16 @@ export class SocketManager {
     return SocketManager.instance;
   }
 }
+
+/**
+ * exaple to use this socket managet in seprate services
+ * export class NotificationService {
+ *   private io: SocketIOServer;
+ *  constructor() {
+ *   this.io = SocketManager.getInstance().getIo();
+ * }
+ * sendNotification(userId: string, message: string) {
+ *   this.io.to(userId).emit("notification", message);
+ * }
+ * }
+ */

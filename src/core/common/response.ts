@@ -1,7 +1,7 @@
 interface IApiResponse<T> {
   status: string;
-  message: string;
   statusCode: number;
+  message: string;
   data?: T;
 }
 /**
@@ -12,8 +12,8 @@ interface IApiResponse<T> {
  * @returns An object representing the success response.
  */
 const success = <T>(
-  message: string,
   statusCode: number,
+  message: string,
   data?: T
 ): IApiResponse<T> => ({
   status: "success",
