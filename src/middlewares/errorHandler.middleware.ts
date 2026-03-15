@@ -3,7 +3,7 @@ import { HttpException } from "@/core/exceptions/httpException";
 import { logger } from "@/core/common/logger";
 import { httpStatus } from "@/core/constants/httpStatus";
 import { prismaExceptionFilter } from "@/core/exceptions/prisma.exception";
-import { error } from "@/core/constants/errorCodes";
+import { errorCodes } from "@/core/constants/errorCodes";
 
 const isJsonBodyParserError = (
   error: unknown
@@ -21,7 +21,7 @@ export const routeNotFoundHandler = (req: Request, res: Response, next: NextFunc
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
     statusCode: httpStatus.NOT_FOUND,
-    message: error.NOT_FOUND || "Route not found",
+    message: errorCodes.NOT_FOUND || "Route not found",
     path: req.originalUrl,         
     method: req.method,             
     stack: process.env.NODE_ENV === "development" ? "Route does not exist" : undefined,

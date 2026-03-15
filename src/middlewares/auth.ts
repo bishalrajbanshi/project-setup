@@ -2,6 +2,9 @@ import { JwtPayload } from "jsonwebtoken";
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { ApiError } from "core/config/error.handler.config";
+import { HttpException } from "@/core/exceptions/httpException";
+import { httpStatus } from "@/core/constants/httpStatus";
+import { errorCodes } from "@/core/constants/errorCodes";
 
 const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
 
@@ -22,7 +25,13 @@ export const authenticateToken = async (
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return next(new ApiError("Unauthorized", 401));
+    return next(
+      new HttpException(
+        httpStatus.NOT_FOUND,
+        "Token not found",
+        errorCodes.NOT_FOUND
+      )
+    );
   }
 
   try {
@@ -30,7 +39,13 @@ export const authenticateToken = async (
     req.user = user;
     return next();
   } catch {
-    return next(new ApiError("Unauthorized", 403));
+    return next(
+      new HttpException(
+        httpStatus.FORBIDDEN,
+        "Unauthorized",
+        errorCodes.FORBIDDEN
+      )
+    );
   }
 };
 

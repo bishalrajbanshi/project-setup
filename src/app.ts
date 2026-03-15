@@ -19,7 +19,7 @@ export class CreateApp {
     app.use(morganMiddleware);
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use("/api/v1", webRoutes);
+    app.use("/api", webRoutes);
     app.use(routeNotFoundHandler as express.RequestHandler);
     app.use(errorHandler as express.ErrorRequestHandler);
     return app;

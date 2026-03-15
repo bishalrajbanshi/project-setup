@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { UserServices } from "../services/user.services";
+import { UserServices } from "../services/user.service";
 import { success } from "@/core/common/response";
 import { successCodes } from "@/core/constants/successCodes";
 import { httpStatus } from "@/core/constants/httpStatus";
