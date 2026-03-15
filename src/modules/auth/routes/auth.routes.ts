@@ -1,3 +1,4 @@
+
 import { Router } from "express";
 import { AuthController } from "../controller/auth.controller";
 import { authenticateToken } from "middlewares/auth";
