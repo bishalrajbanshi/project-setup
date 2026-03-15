@@ -2,7 +2,7 @@ import { connectDb, disconnectDb } from "core/config/db.config";
 import { CreateApp } from "./app";
 import { createServer, Server as HttpServer } from "http";
 import { logger } from "core/common/logger";
-import { SocketManager } from "./socket.managet"; 
+import { SocketManager } from "./socket.manager"; 
 
 class Server extends CreateApp {
   private readonly port: number = parseInt(process.env.PORT || "3000", 10);
