@@ -13,9 +13,8 @@ model User {
   name      String           @db.VarChar(100)
   email     String            @db.VarChar(255)@unique()
   password  String           @db.VarChar(100)
-  roles            UserRole[]
-  permissions      UserPermission[]
-  rolePermissions  UserRolePermission[] 
+
+
 
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
@@ -34,113 +33,9 @@ model Role {
   isSystem  Boolean          @default(false)
   status    RoleStatus       @default(active)
 
-  users           UserRole[]
-  permissions     RoleAndPermission[]
-  rolePermissions UserRolePermission[] 
-
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 
   @@map("roles")
 }
 
-model Permission {
-  id          String           @id @default(uuid())
-  name        String           @db.VarChar(100)
-  password  String           @db.VarChar(100)
-
-  roles           RoleAndPermission[]
-  users           UserPermission[]
-  rolePermissions UserRolePermission[] 
-  permissionActions PermissionAction[]
-  permissionResources PermissionResources[]
-
-
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-
-  @@map("permissions")
-}
-
-model PermissionResources {
-  id    String @id @default(uuid())
-  resources String    @db.VarChar(255)
-
-  permissionId String
-  permission Permission @relation(fields: [permissionId],references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("permissionresources")
-}
-
-model PermissionAction {
-  id           String @id @default(uuid())
-  action       String @db.VarChar(100)
-  permissionId String
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("permissionactions")
-}
-
-model RoleAndPermission {
-  roleId       String
-  permissionId String
-
-  role         Role        @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permission   Permission  @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-
-  @@id([roleId, permissionId])
-  @@map("rolepermissions")
-}
-
-model UserRole {
-  userId   String
-  roleId   String
-
-  user     User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role     Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@id([userId, roleId])
-  @@map("userroles")
-}
-
-model UserPermission {
-  userId       String
-  permissionId String
-
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-
-  @@id([userId, permissionId])
-  @@map("userpermissions")
-}
-
-model UserRolePermission {
-  userId       String
-  roleId       String
-  permissionId String
-
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-
-  @@id([userId, roleId, permissionId])
-  @@map("userrolepermissions")
-}
