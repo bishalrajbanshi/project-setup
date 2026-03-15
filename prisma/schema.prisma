@@ -14,12 +14,37 @@ model User {
   email     String            @db.VarChar(255)@unique()
   password  String           @db.VarChar(100)
 
-
+  roleId    String
+  role       Role @relation(fields: [roleId], references: [id])
 
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 
   @@map("users")
+}
+
+
+model Admin {
+
+id          String        @id @default(uuid())
+name        String
+email        String
+password      String
+status          status @default(active)
+roleId        String
+role          Role @relation(fields: [roleId], references: [id])
+
+createdAt     DateTime      @default(now())
+updatedAt     DateTime      @updatedAt
+
+@@map("admins")
+
+}
+
+
+enum status {
+  active
+  inactive
 }
 
 enum RoleStatus {
@@ -32,6 +57,9 @@ model Role {
   name      String           @unique @db.VarChar(100)
   isSystem  Boolean          @default(false)
   status    RoleStatus       @default(active)
+
+  user    User[]
+  admin   Admin[]
 
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
