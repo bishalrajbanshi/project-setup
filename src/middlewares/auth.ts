@@ -1,7 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
-import express, { Request, Response, NextFunction } from "express";
+import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import { ApiError } from "core/config/error.handler.config";
 import { HttpException } from "@/core/exceptions/httpException";
 import { httpStatus } from "@/core/constants/httpStatus";
 import { errorCodes } from "@/core/constants/errorCodes";
@@ -9,18 +8,11 @@ import { errorCodes } from "@/core/constants/errorCodes";
 const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
 
 export interface UserPayload extends JwtPayload {
-  role: string | { id: string; [key: string]: any };
+  userId: string;
+  role?: string | { id: string; [key: string]: any };
 }
-declare module "express" {
-  interface Request {
-    user?: UserPayload;
-  }
-}
-export const authenticateToken = async (
-  req: Request,
-  _res: Response,
-  next: NextFunction
-): Promise<void> => {
+
+export const authenticateToken: RequestHandler = async (req, _res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
